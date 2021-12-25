@@ -1,15 +1,7 @@
 from flask import Flask, render_template, request
-from config import username as uname, password as pword, account as acc
-import snowflake.connector
+from connect import getConnection
 
-
-conn = snowflake.connector.connect(
-    user=uname,
-    password=pword,
-    account=acc,
-    warehouse='COMPUTE_WH',
-    schema='PUBLIC',
-    database='MYNEWDB')
+conn = getConnection().makeconnection()
 cs = conn.cursor()
 cs.execute('USE ROLE ACCOUNTADMIN')
 
