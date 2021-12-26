@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/vendor/bootstrap/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/userpage.css') }}"
+      type="text/css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>User page</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid text-center ">
+        <a class="navbar-brand" href="#">Welcome User</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarText"
+          aria-controls="navbarText"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <span class="navbar-text">
+            <form action="/logout" method="post">
+              <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+          </span>
+        </div>
+      </div>
+    </nav>
+      <div class="alert alert-success alert-dismissible fade show text-center" role="alert" {{issuccesshidden}}>
+        <strong>{{alertmessage}}</strong>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        ><span aria-hidden="true">&times;</span>
+      </button></div>
+        
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="container">
+      <div class="text-center mt-5">
+        <h1>Enter Student Details</h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-7 mx-auto">
+          <div class="card mt-2 mx-auto p-4 bg-light">
+            <div class="card-body bg-light">
+              <div class="container">
+                <form action="/recordadded" method="post">
+                  <div class="controls">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="form_name">Firstname *</label>
+                          <input
+                            id="form_firstname"
+                            type="text"
+                            name="form_firstname"
+                            class="form-control"
+                            placeholder="Student First Name"
+                            required="required"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="form_lastname">Lastname *</label>
+                          <input
+                            id="form_lastname"
+                            type="text"
+                            name="form_lastname"
+                            class="form-control"
+                            placeholder="Student Last Name"
+                            required="required"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="form_course">Course *</label>
+                          <input
+                            id="form_course"
+                            type="text"
+                            name="form_course"
+                            class="form-control"
+                            placeholder="Student Course *"
+                            required="required"
+                            data-error="Valid Course is required."
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="form_need">Student Travel mode *</label>
+                          <select
+                            id="form_travelmode"
+                            name="form_travelmode"
+                            class="form-control"
+                            required="required"
+                            data-error="Please specify your need."
+                          >
+                            <option value="" selected disabled>
+                              Select Student Travel Mode
+                            </option>
+                            <option>Bus</option>
+                            <option>Train</option>
+                            <option>Personal vehicle</option>
+                            <option>walk</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="form_message">Address *</label>
+                          <textarea
+                            id="form_address"
+                            name="form_address"
+                            class="form-control"
+                            placeholder="Write your message here."
+                            rows="4"
+                            required="required"
+                            data-error="Enter Student Address here"
+                          ></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <button
+                            type="submit"
+                            class="btn btn-success btn-send pt-2 btn-block"
+                          >
+                            Insert the Entry
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- /.8 -->
+        </div>
+        <!-- /.row-->
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

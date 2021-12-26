@@ -1,4 +1,6 @@
 
-username = "someusername"
-password = "somepassword"
-account = "someaccount"
+username = "username"
+password = "password"
+account = "useraccount"
+
+
