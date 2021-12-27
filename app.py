@@ -1,6 +1,8 @@
 import os
-from flask import Flask, render_template, request, session,send_from_directory
+from flask import Flask, render_template, request, session,send_from_directory,Response
 from connect import getConnection
+
+
 
 conn = getConnection().makeconnection()
 cs = conn.cursor()
@@ -10,9 +12,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysimpleFlaskApplication' 
 
 
+def getdata(tablename):
+    cs.execute('USE ROLE ACCOUNTADMIN')
+    query = f"SELECT * FROM {tablename}"
+    data = list(cs.execute(query))
+    return data
+
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html',isdangerhidden="hidden")
 
 
 @app.route('/userpage', methods=['GET', 'POST'])
@@ -22,10 +31,14 @@ def userpage():
         lname = request.form.get('last_name')
         e_mail = request.form.get('email')
         pass_word = request.form.get('password')
-        cs.execute('USE ROLE ACCOUNTADMIN')
-        insert_query =  f'INSERT INTO USERACCOUNTS(FIRSTNAME,LASTNAME,EMAIL,PASSWORD) VALUES(\'{fname}\', \'{lname}\', \'{e_mail}\', \'{pass_word}\');'
-        cs.execute(insert_query)
-        return render_template('login.html',alertmessage="Account Added Successfully!",issuccesshidden="",isdangerhidden="hidden")
+        data = getdata('USERACCOUNTS')
+        if (any(str(e_mail) in d for d in data)):
+            return render_template('index.html', isdangerhidden="", message=f"User with E-mail {e_mail} already registered!")
+        else:
+            cs.execute('USE ROLE ACCOUNTADMIN')
+            insert_query =  f'INSERT INTO USERACCOUNTS(FIRSTNAME,LASTNAME,EMAIL,PASSWORD) VALUES(\'{fname}\', \'{lname}\', \'{e_mail}\', \'{pass_word}\');'
+            cs.execute(insert_query)
+            return render_template('login.html',alertmessage="Account Added Successfully!",issuccesshidden="",isdangerhidden="hidden")
 
 
 @app.route('/login',methods=['GET','POST'])
@@ -48,10 +61,8 @@ def checkuser():
         E_Mail = request.form.get('email')
         Pass_Word = request.form.get('password')
         cs.execute('USE ROLE ACCOUNTADMIN')
-        query = "SELECT * FROM USERACCOUNTS;"
-        query2 = "SELECT * FROM ADMINACCOUNTS;"
-        userdata = list(cs.execute(query))
-        admindata = list(cs.execute(query2))
+        userdata = getdata('USERACCOUNTS')
+        admindata = getdata('ADMINACCOUNTS')
         if (any(str(E_Mail) in data for data in userdata)):
             query3 = f"SELECT PASSWORD FROM USERACCOUNTS where Email = '{E_Mail}';"
             v = list(cs.execute(query3))
@@ -65,7 +76,7 @@ def checkuser():
             v2 = list(cs.execute(query4))
             if Pass_Word == v2[0][0]:
                 session['user'] = E_Mail
-                return render_template('adminpage.html',issuccesshidden="",isbuttonhidden="",isrefreshhidden="hidden", istablehidden='hidden',alertmessage="Admin Logged in Successfully!")
+                return render_template('adminpage.html',issuccesshidden="",isbuttonhidden="",isrefreshhidden="hidden", istablehidden='hidden',isdownloadhidden="hidden",alertmessage="Admin Logged in Successfully!")
             else:
                 return render_template('login.html',issuccesshidden='hidden',isdangerhidden="",alertmessage="Wrong Password!") 
         else:
@@ -94,17 +105,30 @@ def getrecords():
     if not 'user' in session:
         return render_template('/login',issuccesshidden='hidden',isdangerhidden="",alertmessage="User Out of Session!")
     else:
-        if request.method == "POST":
-            cs.execute('USE ROLE ACCOUNTADMIN')
-            query = "SELECT * FROM studentdata;"
-            data = list(cs.execute(query))
-            return render_template('adminpage.html' , records = data ,isrefreshhidden="",issuccesshidden='',alertmessage="Records Fetched Successfully!" ,isbuttonhidden="hidden", istablehidden='')
+        data = getdata('STUDENTDATA')
+        return render_template('adminpage.html' , records = data ,isrefreshhidden="",issuccesshidden='',alertmessage="Records Fetched Successfully!" ,isbuttonhidden="hidden",isdownloadhidden="", istablehidden='')
 
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                           'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
+
+@app.route('/download')
+def getcsv():
+    csv = ""
+    data = getdata('STUDENTDATA')
+    for record in data:
+        for value in record:
+            csv += value + ','
+        csv = csv[:len(csv)-1]
+        csv += '\n'
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=myplot.csv"})
 
 if __name__ == '__main__':
     app.run(debug=True)

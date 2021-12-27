@@ -8,13 +8,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}"  type="text/css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- <script src="{{ url_for('static', filename='/vendor/bootstrap/js/popper.min.js') }}"></script> -->
-    <script src="{{ url_for('static', filename='/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"
+  ></script>
+
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"  type="text/css">
     </head>
     <body>
     <div class="text-center" style="color: #63738a;
     background: #fff">
         <h1 alifn="center">Welcome to Students Data Enroll Website!</h1>
+    </div>
+    <div  class="alert alert-danger alert-dismissible fade show text-center" role="alert" {{isdangerhidden}}>
+        <strong>{{message}}</strong>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        ><span aria-hidden="true">&times;</span>
+    </button>
     </div>
     <div class="signup-form">
         <form action="/userpage" method="post">
@@ -30,10 +55,10 @@
                 <input type="email" class="form-control"  id ="email"name="email" placeholder="Email" required="required">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" minlength="6" maxlength="20" onchange='onChnage()'>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
+                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required" onchange='onChange()'><p id="message"></p>
             </div>        
             <div class="form-group">
                 <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
@@ -44,5 +69,16 @@
         </form>
         <div class="text-center">Already have an account? <a href="/login">Sign in</a></div>
     </div>
+    <script>
+        function onChange() {
+  const password = document.querySelector('input[name=password]');
+  const confirm = document.querySelector('input[name=confirm_password]');
+  if (confirm.value === password.value) {
+    confirm.setCustomValidity('');
+  } else {
+    confirm.setCustomValidity('Passwords do not match');
+  }
+}
+    </script>
     </body>
     </html>

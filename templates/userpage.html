@@ -30,13 +30,14 @@
       integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>User page</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid text-center ">
-        <a class="navbar-brand" href="#">Welcome User</a>
+        <a class="navbar-brand" href="#">Welcome User <i class="fa fa-user-circle-o"></i></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -51,7 +52,7 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <span class="navbar-text">
             <form action="/logout" method="post">
-              <button type="submit" class="btn btn-danger">Logout</button>
+              <button type="submit" class="btn btn-danger"><i class="fa fa-sign-out"></i> Logout</button>
             </form>
           </span>
         </div>
@@ -160,15 +161,14 @@
                           ></textarea>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="col-md-12">
-                          <button
+                      <div class=" text-center">
+                        
+                          <button style="margin-left: 80%;" 
                             type="submit"
-                            class="btn btn-success btn-send pt-2 btn-block"
-                          >
-                            Insert the Entry
+                            class="btn btn-success "
+                          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-upload"></i>&nbsp;&nbsp;
+                            Insert the Entry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           </button>
-                        </div>
                       </div>
                     </div>
                   </div>

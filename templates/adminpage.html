@@ -9,8 +9,9 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='/vendor/bootstrap/css/bootstrap.min.css') }}"
+      href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/userpage.css') }}"
@@ -37,7 +38,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Welcome Admin</a>
+        <a class="navbar-brand" href="#">Welcome Admin <i class="fa fa-user"></i></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -51,7 +52,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <span class="navbar-text">
-            <form action="/logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
+            <form action="/logout" method="post"><button type="submit" class="btn btn-danger"><i class="fa fa-sign-out"></i> Logout</button></form>
           </span>
         </div>
       </div>
@@ -65,9 +66,11 @@
         aria-label="Close"
       ><span aria-hidden="true">&times;</span>
     </button></div>
- <form action="/getrecords" method="post">
-     <button type="submit" class="form-control btn btn-success" {{isbuttonhidden}}>Get student data</button>
-     <span class="text-center"><button type="submit" class="form-control btn btn-primary" {{isrefreshhidden}}>Refresh</button></span>
+    <div class="text-center">
+     <a href="/getrecords"><button class="btn btn-success" {{isbuttonhidden}}><i class="fa fa-globe"></i> Get student data</button></a>
+     <a href="/getrecords"><button class="btn btn-primary" {{isrefreshhidden}}> &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-refresh"></i>&nbsp; Refresh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </button>
+      </a>
+    </div>
  </form>
  <table class="table table-striped" {{ istablehidden }}>
   <thead>
@@ -89,20 +92,10 @@
       <td>{{record[4]}}</td>
     </tr>
     {% endfor %}
-    <!-- <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr> -->
   </tbody>
 </table>
+<div class="text-center" {{isdownloadhidden}}>
+<a href="/download"><button class="btn btn-success"><i class="fa fa-download"></i> Download Student Records </button></a></div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
