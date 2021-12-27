@@ -128,7 +128,7 @@ def getcsv():
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
-                 "attachment; filename=myplot.csv"})
+                 "attachment; filename=studentsdata.csv"})
 
 if __name__ == '__main__':
     app.run(debug=True)
