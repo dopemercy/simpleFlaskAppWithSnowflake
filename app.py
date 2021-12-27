@@ -1,4 +1,4 @@
-import os
+import os,config
 from flask import Flask, render_template, request, session,send_from_directory,Response
 from connect import getConnection
 
@@ -9,7 +9,7 @@ cs = conn.cursor()
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mysimpleFlaskApplication' 
+app.config['SECRET_KEY'] = config.secret_key 
 
 
 def getdata(tablename):
